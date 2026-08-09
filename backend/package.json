@@ -6,9 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server"
   },
-  "author": "",
+  "author": "AKASHMITTAL2004",
   "license": "ISC",
-  "description": "",
+  "description": "Backend REST API for Full-Stack Inventory Management System",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
