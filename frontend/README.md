@@ -1,115 +1,70 @@
-# 📦 Enterprise Inventory Management System (MERN Stack)
+# Getting Started with Create React App
 
-[![Author](https://img.shields.io/badge/Author-AKASHMITTAL2004-blue.svg?style=for-the-badge&logo=github)](https://github.com/AKASHMITTAL2004)
-[![React](https://img.shields.io/badge/React-19.0-61DAFB.svg?style=for-the-badge&logo=react)](https://react.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-v18%2B-339933.svg?style=for-the-badge&logo=node.js)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-4.x-000000.svg?style=for-the-badge&logo=express)](https://expressjs.com/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248.svg?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC.svg?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-A full-stack, real-time **Inventory Management System** engineered to automate stock tracking, sales order processing, supplier operations, and analytics visualization. Designed with modern web standards, role-based security, dynamic data charts, and real-time state synchronization.
+## Available Scripts
 
----
+In the project directory, you can run:
 
-## 🌟 Key Highlights
+### `npm start`
 
-- 📈 **Real-Time Data Dashboard:** High-level overview displaying metrics for total stock value, low-stock notifications, recent sales orders, and product distributions.
-- 🔐 **Role-Based Access Control (RBAC):** Token-based authentication using **JWT** enforcing granular access permissions between **Administrators** and **Managers**.
-- 🛒 **Order & Sales Management:** Streamlined workflow for managing sales orders, dynamic inventory deductions, and order statuses.
-- 📦 **Product & Category Administration:** Full CRUD operations for product catalogs, SKU tracking, pricing adjustments, and low-threshold alerts.
-- 🖼️ **Cloud Image Assets:** Integrated cloud image upload pipelines powered by **Cloudinary**.
-- 🎨 **Responsive UI/UX:** Built with React 19, Redux Toolkit, and Tailwind CSS/DaisyUI for desktop and mobile devices.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
----
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-## 🏗️ Architecture & Tech Stack
+### `npm test`
 
-### **Frontend Client**
-* **Framework:** React.js (v19)
-* **State Management:** Redux Toolkit (`@reduxjs/toolkit`)
-* **Styling & UI:** Tailwind CSS, DaisyUI, Lucide React Icons
-* **Charts & Analytics:** Chart.js, React-Chartjs-2
-* **Form Validation:** React Hook Form & Yup
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### **Backend Server**
-* **Runtime:** Node.js & Express.js REST API
-* **Database & ODM:** MongoDB with Mongoose ODM
-* **Security & Auth:** JSON Web Tokens (JWT), Bcrypt password hashing, CORS configuration
-* **Media Storage:** Cloudinary API
+### `npm run build`
 
----
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## 📂 Directory Structure
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-```text
-Inventory-Management-System/
-├── backend/                  # Server-side Application
-│   ├── controller/           # Route handler controllers
-│   ├── libs/                 # Database & helper libraries
-│   ├── middleware/           # JWT & RBAC validation middleware
-│   ├── models/               # Mongoose database schemas
-│   ├── Routers/              # Express API router endpoints
-│   ├── server.js             # Express application entry point
-│   └── package.json          # Server dependencies & scripts
-│
-├── frontend/                 # Client-side Application
-│   ├── public/               # HTML template & favicons
-│   ├── src/                  # React source components & Redux slices
-│   │   ├── components/       # Reusable UI components & layouts
-│   │   ├── pages/            # View pages (Dashboard, Products, Orders)
-│   │   └── redux/            # Store setup & state Reducers
-│   └── package.json          # Client dependencies & scripts
-│
-└── README.md                 # Project Documentation
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## ⚙️ Environment Configuration
+### `npm run eject`
 
-To run this project locally, create a `.env` file inside the `backend` directory containing the following variables:
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-```env
-# Server Configuration
-PORT=5000
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-# Database Connection
-MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/inventory?retryWrites=true&w=majority
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-# Authentication
-JWT_SECRET=your_super_secret_jwt_key_here
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-# Cloudinary Storage Configuration
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+## Learn More
 
-## 🚀 Step-by-Step Installation & Running Guide
-Prerequisites
-Ensure you have the following installed locally on your system:
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-Node.js (v18.0.0 or higher)
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-Git
+### Code Splitting
 
-MongoDB (Local instance or a free account on MongoDB Atlas)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-1️⃣ Clone the Repository
-Bash
-git clone [https://github.com/AKASHMITTAL2004/Inventory-Management-System.git](https://github.com/AKASHMITTAL2004/Inventory-Management-System.git)
-cd Inventory-Management-System
-2️⃣ Configure & Start Backend
-Navigate to the backend directory, install all required dependencies, and launch the server:
+### Analyzing the Bundle Size
 
-Bash
-cd backend
-npm install
-npm start
-The Express server will start running on http://localhost:5000.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-3️⃣ Configure & Start Frontend
-Open a new terminal tab or window, navigate to the frontend folder, install client packages, and launch the React app:
+### Making a Progressive Web App
 
-Bash
-cd frontend
-npm install
-npm start
-The React dashboard will automatically open at http://localhost:3000.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
