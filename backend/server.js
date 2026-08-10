@@ -19,9 +19,12 @@ require("dotenv").config();
 const PORT = process.env.PORT || 3003;
 
 const app = express();
+
+// 🟢 FIX: Trust proxy configuration for cloud deployments like Render
+app.set('trust proxy', 1);
+
 const server = http.createServer(app);
 
-// 🟢 FIX 1: Allow all Vercel deployment subdomains & localhost dynamic CORS
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || origin.includes("vercel.app") || origin.includes("localhost")) {
@@ -38,7 +41,7 @@ const io = new Server(server, { cors: corsOptions });
 
 app.use(cors(corsOptions));
 app.use(cookieParser());
-app.use(express.json({ limit: "10mb" })); // Cleaned duplicate express.json()
+app.use(express.json({ limit: "10mb" }));
 
 app.set("io", io);
 
@@ -49,10 +52,8 @@ io.on("connection", (socket) => {
   });
 });
 
-// 🟢 FIX 2: Added /api/users alias so both /api/auth and /api/users work
 app.use('/api/auth', authrouter);
 app.use('/api/users', authrouter);
-
 app.use('/api/product', productrouter);
 app.use('/api/order', orderrouter);
 app.use('/api/category', categoryrouter);
@@ -63,7 +64,6 @@ app.use('/api/sales', salesrouter);
 app.use('/api/supplier', supplierrouter);
 app.use("/api/stocktransaction", stocktransactionrouter);
 
-// 🟢 FIX 3: Initialize DB config before server starts listening
 MongoDBconfig();
 
 server.listen(PORT, () => {
