@@ -5,45 +5,53 @@ import toast from 'react-hot-toast';
 const initialState = {
   Authuser: JSON.parse(localStorage.getItem("user")) || null, 
   isUserSignup: false,
-  staffuser:null,
-  manageruser:null,
-  adminuser:null,
+  staffuser: null,
+  manageruser: null,
+  adminuser: null,
   isUserLogin: false,
   token: localStorage.getItem("token") || null,
   isupdateProfile: false,
 };
 
-
+// Signup Thunk
 export const signup = createAsyncThunk(
   "auth/signup",
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("auth/signup", credentials, { withCredentials: true });
-      localStorage.setItem("user", JSON.stringify(response.data.savedUser)); 
-      localStorage.setItem("token", response.data.savedUser.token); 
-      return response.data;
+      const user = response.data.savedUser || response.data.user;
+      const token = response.data.token || user?.token;
+
+      if (user) localStorage.setItem("user", JSON.stringify(user)); 
+      if (token) localStorage.setItem("token", token); 
+
+      return { user, token, message: response.data.message };
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Signup failed");
     }
   }
 );
 
-// Login
+// Login Thunk
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("auth/login", credentials, { withCredentials: true });
-      localStorage.setItem("user", JSON.stringify(response.data.user)); 
-      localStorage.setItem("token", response.data.user.token); 
-      return response.data;
+      const user = response.data.user;
+      const token = response.data.token || user?.token;
+
+      if (user) localStorage.setItem("user", JSON.stringify(user)); 
+      if (token) localStorage.setItem("token", token); 
+
+      return { user, token, message: response.data.message };
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Login failed");
     }
   }
 );
 
-// Logout
+// Logout Thunk
 export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
@@ -57,20 +65,18 @@ export const logout = createAsyncThunk(
     }
   }
 );
+
+// Update Profile Thunk
 export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
   async (base64Image, { rejectWithValue }) => {
     try {
-  
-      const storedUser = JSON.parse(localStorage.getItem('user'));
       const token = localStorage.getItem('token');
 
-
-      if (!storedUser || !token) {
+      if (!token) {
         return rejectWithValue('User not authenticated. Please log in again.');
       }
 
-     
       const response = await axiosInstance.put(
         'auth/updateProfile',
         { ProfilePic: base64Image },
@@ -82,18 +88,15 @@ export const updateProfile = createAsyncThunk(
         }
       );
 
-      const updatedData = response.data;
+      const updatedUser = response.data.updatedUser || response.data.user;
 
-    
-      if (updatedData && updatedData.updatedUser) {
-       
-        localStorage.setItem('user', JSON.stringify(updatedData.updatedUser));
-        return updatedData.updatedUser; // Return the updated user object
+      if (updatedUser) {
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        return updatedUser;
       } else {
         throw new Error('Unexpected response structure');
       }
     } catch (error) {
-      console.error('Update profile error:', error);
       return rejectWithValue(
         error.response?.data?.message || 'Failed to update profile'
       );
@@ -101,58 +104,45 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
-
-
-
-
-export const staffUser=createAsyncThunk('auth/staffuser',async(_,{rejectWithValue})=>{
+// Get Staff Users (FIXED GET SYNTAX)
+export const staffUser = createAsyncThunk('auth/staffuser', async (_, { rejectWithValue }) => {
   try {
-
-    const response=await axiosInstance.get('auth/staffuser',_,{ withCredentials: true });
-    return response.data
-    
+    const response = await axiosInstance.get('auth/staffuser', { withCredentials: true });
+    return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data?.message || 'Failed to get staff user');
+    return rejectWithValue(error.response?.data?.message || 'Failed to get staff users');
   }
-})
+});
 
-
-
-export const managerUser=createAsyncThunk('auth/manageruser',async(_,{rejectWithValue})=>{
+// Get Manager Users (FIXED GET SYNTAX)
+export const managerUser = createAsyncThunk('auth/manageruser', async (_, { rejectWithValue }) => {
   try {
-
-    const response=await axiosInstance.get('auth/manageruser',_,{ withCredentials: true });
-    return response.data
-    
+    const response = await axiosInstance.get('auth/manageruser', { withCredentials: true });
+    return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data?.message || 'Failed to get manager user');
+    return rejectWithValue(error.response?.data?.message || 'Failed to get manager users');
   }
-})
+});
 
-
-
-export const adminUser=createAsyncThunk('auth/adminuser',async(_,{rejectWithValue})=>{
+// Get Admin Users (FIXED GET SYNTAX)
+export const adminUser = createAsyncThunk('auth/adminuser', async (_, { rejectWithValue }) => {
   try {
-
-    const response=await axiosInstance.get('auth/adminuser',_,{ withCredentials: true });
-    return response.data
-    
+    const response = await axiosInstance.get('auth/adminuser', { withCredentials: true });
+    return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data?.message || 'Failed to get admin  user');
+    return rejectWithValue(error.response?.data?.message || 'Failed to get admin users');
   }
-})
+});
 
-export const removeusers=createAsyncThunk("auth/removeuser",async(UserId,{rejectWithValue})=>{
+// Remove User (FIXED DELETE SYNTAX)
+export const removeusers = createAsyncThunk("auth/removeuser", async (UserId, { rejectWithValue }) => {
   try {
-
-    const response=await axiosInstance.delete(`auth/removeuser/${UserId}`,UserId,{ withCredentials: true });
-
-    return response.data
-
+    const response = await axiosInstance.delete(`auth/removeuser/${UserId}`, { withCredentials: true });
+    return { UserId, data: response.data };
   } catch (error) {
-     return rejectWithValue(error.response?.data?.message || 'Failed to delete  user');
+    return rejectWithValue(error.response?.data?.message || 'Failed to delete user');
   }
-})
+});
 
 const authSlice = createSlice({
   name: "auth",
@@ -160,22 +150,22 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-     
+      // Signup Cases
       .addCase(signup.pending, (state) => {
         state.isUserSignup = true;
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.isUserSignup = false;
-        state.Authuser = action.payload.savedUser; 
+        state.Authuser = action.payload.user; 
         state.token = action.payload.token; 
-
+        toast.success(action.payload.message || "Account created successfully!");
       })
       .addCase(signup.rejected, (state, action) => {
         state.isUserSignup = false;
-
+        toast.error(action.payload || "Signup failed!");
       })
 
-      
+      // Login Cases
       .addCase(login.pending, (state) => {
         state.isUserLogin = true;
       })
@@ -183,96 +173,44 @@ const authSlice = createSlice({
         state.isUserLogin = false;
         state.Authuser = action.payload.user; 
         state.token = action.payload.token; 
- 
+        toast.success("Logged in successfully!");
       })
       .addCase(login.rejected, (state, action) => {
         state.isUserLogin = false;
-
+        toast.error(action.payload || "Login failed!");
       })
 
-    
+      // Logout Cases
       .addCase(logout.fulfilled, (state) => {
         state.Authuser = null;
         state.token = null;
         toast.success("Successfully logged out!");
       })
-      .addCase(logout.rejected, (state, action) => {
-     
-      })
 
+      // Update Profile Cases
       .addCase(updateProfile.pending, (state) => {
         state.isupdateProfile = true;
       })
-      
-
-      builder.addCase(updateProfile.fulfilled, (state, action) => {
+      .addCase(updateProfile.fulfilled, (state, action) => {
         state.isupdateProfile = false;
-        state.Authuser = { ...state.Authuser, user: action.payload }; 
-      
+        state.Authuser = action.payload; // Fixed nesting bug
+        toast.success("Profile updated successfully!");
       })
-      
-    
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.isupdateProfile = false;
+        toast.error(action.payload || "Profile update failed!");
+      })
 
+      // Staff, Manager, Admin & Remove Cases
       .addCase(staffUser.fulfilled, (state, action) => {
-     
-        state. staffuser = action.payload
-
+        state.staffuser = action.payload;
       })
-      
-     
-      .addCase(staffUser.rejected,(state,action)=>{
-
- 
-      })
-
-      
-
-
       .addCase(managerUser.fulfilled, (state, action) => {
-    
-        state.manageruser = action.payload
-
+        state.manageruser = action.payload;
       })
-      
-     
-      .addCase(managerUser.rejected,(state,action)=>{
-   
-      
-      })
-    
-
-
-
-
       .addCase(adminUser.fulfilled, (state, action) => {
-      
-        state.adminuser = action.payload
-        
-      })
-      
-     
-      .addCase(adminUser.rejected,(state,action)=>{
-      
-       
-      })
-
-
-      .addCase(removeusers.fulfilled, (state, action) => {
-      
-      
-        
-      })
-      
-     
-      .addCase(removeusers.rejected,(state,action)=>{
-      
-      
-      })
-    
-
-
-
-  
+        state.adminuser = action.payload;
+      });
   },
 });
 
