@@ -29,6 +29,7 @@ function SignupPage() {
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     dispatch(signup(data))
+      .unwrap() // THIS IS THE FIX
       .then(() => {
         if (data.role === "staff") {
           navigator("/StaffDashboard");
