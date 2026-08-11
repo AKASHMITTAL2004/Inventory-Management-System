@@ -26,10 +26,17 @@ app.set('trust proxy', 1);
 const server = http.createServer(app);
 
 const corsOptions = {
-  origin: [
-    "http://localhost:3000", 
-    "https://inventory-management-system-b2ws30o3m-akash-2f3d.vercel.app" 
-  ],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like Postman or mobile apps)
+    if (!origin) return callback(null, true);
+    
+    // Dynamically match any Vercel domain or localhost
+    if (origin.endsWith(".vercel.app") || origin.includes("localhost")) {
+      return callback(null, true); // Reflects the exact requesting origin
+    }
+    
+    return callback(new Error("CORS not allowed"));
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 };
