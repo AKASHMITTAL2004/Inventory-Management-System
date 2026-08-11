@@ -88,6 +88,11 @@ function App() {
             path="/AdminDashboard"
             element={<ProtectedRoute element={<AdminDashboard />} />}
           >
+            {/* 🟢 ADDED: Default Index Route for Admin */}
+            <Route
+              index
+              element={<ProtectedRoute element={<Dashboardpage />} />}
+            />
             <Route
               path="product"
               element={<ProtectedRoute element={<Productpage />} />}
@@ -130,6 +135,11 @@ function App() {
             path="/StaffDashboard"
             element={<ProtectedRoute element={<StaffDashboard />} />}
           >
+            {/* 🟢 ADDED: Default Index Route for Staff */}
+            <Route
+              index
+              element={<ProtectedRoute element={<Dashboardpage />} />}
+            />
             <Route
               path="product"
               element={<ProtectedRoute element={<Productpage />} />}
