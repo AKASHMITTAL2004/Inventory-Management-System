@@ -26,14 +26,11 @@ app.set('trust proxy', 1);
 const server = http.createServer(app);
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || origin.includes("vercel.app") || origin.includes("localhost")) {
-      callback(null, true);
-    } else {
-      callback(null, true);
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: [
+    "http://localhost:3000", 
+    "https://inventory-management-system-b2ws30o3m-akash-2f3d.vercel.app" 
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 };
 
