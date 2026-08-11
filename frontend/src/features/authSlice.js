@@ -27,8 +27,12 @@ export const signup = createAsyncThunk(
 
       return { user, token, message: response.data.message };
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Signup failed");
-    }
+  return rejectWithValue(
+    error.response?.data?.message || 
+    error.response?.data?.error || 
+    "Signup failed"
+  );
+}
   }
 );
 
@@ -46,8 +50,12 @@ export const login = createAsyncThunk(
 
       return { user, token, message: response.data.message };
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Login failed");
-    }
+  return rejectWithValue(
+    error.response?.data?.message || 
+    error.response?.data?.error || 
+    "Login failed"
+  );
+}
   }
 );
 
